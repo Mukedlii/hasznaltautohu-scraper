@@ -24,11 +24,13 @@ console.log(`Max oldalak: ${maxPages}`);
 
 let totalResults = 0;
 
-const { proxyGroup = 'RESIDENTIAL' } = input;
+const { proxyGroup = 'RESIDENTIAL', proxyCountryCode = 'HU' } = input;
 
 const proxyConfiguration = await Actor.createProxyConfiguration({
     useApifyProxy: true,
     apifyProxyGroups: [proxyGroup],
+    // Sok HU site csak HU lakossági IP-vel enged be
+    countryCode: proxyCountryCode,
 });
 
 const crawler = new PlaywrightCrawler({
@@ -38,12 +40,22 @@ const crawler = new PlaywrightCrawler({
     useSessionPool: true,
     persistCookiesPerSession: true,
     sessionPoolOptions: {
-        maxPoolSize: 50,
+        maxPoolSize: 80,
         sessionOptions: {
-            maxUsageCount: 3,
+            maxUsageCount: 2,
         },
     },
-    maxRequestRetries: 6,
+
+    // Block/403 esetén jelöljük rossznak a sessiont, hogy új IP/session jöjjön
+    errorHandler: async ({ log, error, session }) => {
+        const msg = String(error?.message ?? error);
+        if (session && (msg.includes("403") || msg.toLowerCase().includes("blocked") || msg.toLowerCase().includes("forbidden"))) {
+            log.warning("🧨 Block gyanú, session bad: " + session.id);
+            session.markBad();
+        }
+    },
+
+    maxRequestRetries: 10,
     maxConcurrency: 1,
     navigationTimeoutSecs: 90,
     requestHandlerTimeoutSecs: 180,
