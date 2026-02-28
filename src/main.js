@@ -33,7 +33,19 @@ const proxyConfiguration = await Actor.createProxyConfiguration({
 
 const crawler = new PlaywrightCrawler({
     proxyConfiguration,
-    maxRequestRetries: 3,
+
+    // Ha 403-at kapunk, az tipikusan bot-block -> session rotáció + retry
+    useSessionPool: true,
+    persistCookiesPerSession: true,
+    sessionPoolOptions: {
+        maxPoolSize: 50,
+        sessionOptions: {
+            maxUsageCount: 3,
+        },
+    },
+    blockedStatusCodes: [403, 429],
+
+    maxRequestRetries: 6,
     maxConcurrency: 1,
     navigationTimeoutSecs: 90,
     requestHandlerTimeoutSecs: 180,
@@ -122,17 +134,26 @@ const crawler = new PlaywrightCrawler({
         },
     ],
 
-    async requestHandler({ page, request, log }) {
+    async requestHandler({ page, request, log, session }) {
         log.info(`📄 Betöltés: ${request.url}`);
+        if (session) log.info(`🧩 Session: ${session.id} (usage=${session.usageCount})`);
 
         await sleep(2000 + Math.random() * 3000);
 
-        // Cloudflare challenge kezelés
+        // Cloudflare / bot-block jelzések kezelése
         for (let attempt = 0; attempt < 3; attempt++) {
             const title = await page.title();
-            const bodyText = await page.evaluate(() => document.body?.innerText?.substring(0, 300) ?? '');
-            if (title.includes('Just a moment') || title.includes('Cloudflare') || bodyText.includes('Checking your browser')) {
-                log.info(`⏳ Cloudflare challenge (${attempt + 1}/3), várakozás 10mp...`);
+            const bodyText = await page.evaluate(() => document.body?.innerText?.substring(0, 600) ?? '');
+
+            const looksLikeChallenge =
+                title.includes('Just a moment')
+                || title.includes('Cloudflare')
+                || bodyText.includes('Checking your browser')
+                || bodyText.toLowerCase().includes('access denied')
+                || bodyText.toLowerCase().includes('forbidden');
+
+            if (looksLikeChallenge) {
+                log.info(`⏳ Challenge/block gyanú (${attempt + 1}/3), várakozás 10mp...`);
                 await sleep(10000);
             } else {
                 break;
