@@ -45,9 +45,9 @@
         "proxyGroup": {
             "title": "Apify proxy group",
             "type": "string",
-            "description": "Melyik Apify proxy group-ot használja. Cloudflare miatt javasolt: RESIDENTIAL.",
+            "description": "Melyik Apify proxy group-ot használja. Cloudflare miatt javasolt: RESIDENTIAL. Datacenterhez a fiókodban elérhető group nevet kell megadni (pl. BUYPROXIES94952).",
             "default": "RESIDENTIAL",
-            "enum": ["RESIDENTIAL", "DATACENTER"]
+            "enum": ["RESIDENTIAL", "BUYPROXIES94952"]
         }
     },
     "required": ["searchUrl"]
