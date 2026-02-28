@@ -1,0 +1,47 @@
+{
+    "title": "Hasznaltauto.hu Scraper Input",
+    "type": "object",
+    "schemaVersion": 1,
+    "properties": {
+        "searchUrl": {
+            "title": "Keresési URL",
+            "type": "string",
+            "description": "A hasznaltauto.hu keresési URL (pl. szűrve márkára, árra, évjáratra)",
+            "editor": "textfield",
+            "default": "https://www.hasznaltauto.hu/talalatilista/PFAD2UZXWCSMUXRWCOILQ3LLMVPIRM4USHC3GNCLHG4WWRQMKXFYVGHQAXTBXFWMNFB5UCHPKDFKJJDQYJJT7FXRQRWN2FVKPHYNQ4UZHMQNPJFPCQTF5T3J6HCGR4I5VMJDSGDQVVLR3E6JLMWAFB5XKAQD7CUJJ7VFKJJD2HH42VDRQNHYNQ4VIHQ3LYHTXIULJQLQ2UAYMPCN3RPHITBOMJ4BMEKCZR4YKMHUWM4N2ZT7BTRP4QGXLDUKN2EJDCVFQ3KLWB3OXYRFPJ6A5WPDCLXJT57YGD4TBRQ3GWMRPH4LFYQMBRVHZZMRYLSYQXBFBIKD6AOKXKV4IIYBTWMHHNQMPQHSFAIB4NTRTQKICWN3EH7PFVFXXIHYUCPJ7PBOVD4TXWN3T3BPJB4KNQFM5IG"
+        },
+        "maxPages": {
+            "title": "Max oldalak száma",
+            "type": "integer",
+            "description": "Hány oldalt scrapeljen le maximum",
+            "default": 5,
+            "minimum": 1,
+            "maximum": 50
+        },
+        "minPrice": {
+            "title": "Minimum ár (Ft)",
+            "type": "integer",
+            "description": "Ennél olcsóbb autókat kiszűri",
+            "editor": "number"
+        },
+        "maxPrice": {
+            "title": "Maximum ár (Ft)",
+            "type": "integer",
+            "description": "Ennél drágább autókat kiszűri",
+            "editor": "number"
+        },
+        "maxKm": {
+            "title": "Maximum km állás",
+            "type": "integer",
+            "description": "Ennél több km-rel rendelkező autókat kiszűri",
+            "editor": "number"
+        },
+        "minYear": {
+            "title": "Minimum évjárat",
+            "type": "integer",
+            "description": "Ennél régebbi autókat kiszűri (pl. 2015)",
+            "editor": "number"
+        }
+    },
+    "required": ["searchUrl"]
+}

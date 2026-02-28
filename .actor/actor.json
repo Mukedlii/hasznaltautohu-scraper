@@ -1,0 +1,10 @@
+{
+    "actorSpecification": 1,
+    "name": "hasznaltauto-scraper",
+    "title": "Hasznaltauto.hu Scraper",
+    "description": "Leszedi a hasznaltauto.hu hirdetéseket: ár, évjárat, km, motor, helyszín",
+    "version": "1.0",
+    "buildTag": "latest",
+    "environmentVariables": {},
+    "dockerfile": "./Dockerfile"
+}
