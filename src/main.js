@@ -43,8 +43,6 @@ const crawler = new PlaywrightCrawler({
             maxUsageCount: 3,
         },
     },
-    blockedStatusCodes: [403, 429],
-
     maxRequestRetries: 6,
     maxConcurrency: 1,
     navigationTimeoutSecs: 90,
