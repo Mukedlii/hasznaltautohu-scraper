@@ -24,9 +24,11 @@ console.log(`Max oldalak: ${maxPages}`);
 
 let totalResults = 0;
 
+const { proxyGroup = 'RESIDENTIAL' } = input;
+
 const proxyConfiguration = await Actor.createProxyConfiguration({
     useApifyProxy: true,
-    apifyProxyGroups: ['RESIDENTIAL'],
+    apifyProxyGroups: [proxyGroup],
 });
 
 const crawler = new PlaywrightCrawler({
