@@ -41,13 +41,6 @@
             "type": "integer",
             "description": "Ennél régebbi autókat kiszűri (pl. 2015)",
             "editor": "number"
-        },
-        "proxyGroup": {
-            "title": "Apify proxy group",
-            "type": "string",
-            "description": "Melyik Apify proxy group-ot használja. Cloudflare miatt javasolt: RESIDENTIAL. Datacenterhez a fiókodban elérhető group nevet kell megadni (pl. BUYPROXIES94952).",
-            "default": "RESIDENTIAL",
-            "enum": ["RESIDENTIAL", "BUYPROXIES94952"]
         }
     },
     "required": ["searchUrl"]
