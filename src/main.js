@@ -24,13 +24,9 @@ console.log(`Max oldalak: ${maxPages}`);
 
 let totalResults = 0;
 
-const { proxyGroup = 'RESIDENTIAL', proxyCountryCode = 'HU' } = input;
-
 const proxyConfiguration = await Actor.createProxyConfiguration({
     useApifyProxy: true,
-    apifyProxyGroups: [proxyGroup],
-    // Sok HU site csak HU lakossági IP-vel enged be
-    countryCode: proxyCountryCode,
+    apifyProxyGroups: ['BUYPROXIES94952'],
 });
 
 const crawler = new PlaywrightCrawler({
